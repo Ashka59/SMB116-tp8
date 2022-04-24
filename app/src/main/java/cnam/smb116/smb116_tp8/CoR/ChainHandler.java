@@ -1,7 +1,7 @@
 package cnam.smb116.smb116_tp8.CoR;
 
 public abstract class ChainHandler<T1,T2,T3,T4>{
-    protected ChainHandler<T1,T2,T3,T4> successor = null;
+    protected ChainHandler<T1,T2,T3,T4> successor;
 
     public ChainHandler(){ this.successor = null;}
     public ChainHandler(ChainHandler<T1,T2,T3,T4> successor){ this.successor = successor;}

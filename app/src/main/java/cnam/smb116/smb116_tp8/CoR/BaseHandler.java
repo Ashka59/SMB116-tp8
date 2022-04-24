@@ -19,7 +19,7 @@ import java.util.Locale;
 public class BaseHandler extends ChainHandler<String, String, Messenger, String> {
 
     private static final String TAG = "BaseHandler";
-    private Context context;
+    private final Context context;
 
     public BaseHandler(Context context, ChainHandler<String, String, Messenger, String> successor){
         super(successor);
@@ -66,7 +66,7 @@ public class BaseHandler extends ChainHandler<String, String, Messenger, String>
     }
 
     protected Boolean filterOK(String filter){
-        Boolean ok = null;
+        boolean ok;
         if (filter != null){
             ok = filter.contains(getClass().getSimpleName());
         }else{

@@ -1,48 +1,36 @@
 package cnam.smb116.smb116_tp8;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.os.Messenger;
-import android.os.RemoteException;
 import android.telephony.SmsMessage;
 import android.util.Log;
-import android.widget.Toast;
 
-import cnam.smb116.smb116_tp8.CoR.ChainHandler;
-import cnam.smb116.smb116_tp8.CoR.ConfigureAccessHandler;
-import cnam.smb116.smb116_tp8.CoR.DeleteAccessHandler;
-import cnam.smb116.smb116_tp8.CoR.GetPositionOffHandler;
-import cnam.smb116.smb116_tp8.CoR.GetPositionOnHandler;
-import cnam.smb116.smb116_tp8.CoR.GetStatutOffHandler;
-import cnam.smb116.smb116_tp8.CoR.GetStatutOnHandler;
-import cnam.smb116.smb116_tp8.CoR.PSWHandler;
-import cnam.smb116.smb116_tp8.CoR.RequestAccessHandler;
-import cnam.smb116.smb116_tp8.CoR.RequestStatutHandler;
+import cnam.smb116.smb116_tp8.CoR.*;
 import cnam.smb116.smb116_tp8.tp9_sensors_extras.Tp9Sensors;
 
-public class SMSReceiver extends BroadcastReceiver
+public class SMSServiceAtBoot extends BroadcastReceiver
 {
-    private static final String TAG = "SMSReceiver";
-    private Context context;
-    private Messenger messenger;
-    private String filter;
+    private static final String TAG = "SMSServiceAtBoot";
+    private final Messenger messenger;
+    private final String filter;
 
-    public SMSReceiver(Context context, Messenger messenger, String filter){
-        this.context = context;
+    public SMSServiceAtBoot(Context context, Messenger messenger, String filter){
         this.messenger = messenger;
         this.filter = filter;
-        /** Question TP9*/
+        /* Question TP9*/
         Tp9Sensors.getInstance(context);
     }
 
+    @SuppressLint("UnsafeProtectedBroadcastReceiver")
     @Override
     public void onReceive(Context context, Intent intent)
     {
         Bundle bundle = intent.getExtras();
-        SmsMessage[] msgs = null;
+        SmsMessage[] msgs;
         String value = "";
         String number = "";
 
@@ -53,7 +41,7 @@ public class SMSReceiver extends BroadcastReceiver
             for (int i=0; i<msgs.length; i++){
                 msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
                 number = msgs[i].getOriginatingAddress();
-                value = msgs[i].getMessageBody().toString();
+                value = msgs[i].getMessageBody();
             }
             Log.i(TAG, "value = "+value+" number = "+number);
 

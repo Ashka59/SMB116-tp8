@@ -1,5 +1,6 @@
 package cnam.smb116.smb116_tp8.tp9_sensors_extras;
 
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -9,9 +10,9 @@ import android.os.Messenger;
 
 public class Tp9Sensors{
 
-    private static final String TAG = "Tp9Sensors";
-    private Context context;
+    private final Context context;
     private StatusAndLocationService mService;
+    @SuppressLint("StaticFieldLeak")
     private static Tp9Sensors instance;
     private boolean mBound = false;
 
@@ -51,7 +52,7 @@ public class Tp9Sensors{
         mBound = false;
     }
 
-    private ServiceConnection connection2 = new ServiceConnection() {
+    private final ServiceConnection connection2 = new ServiceConnection() {
 
         @Override
         public void onServiceConnected(ComponentName className,

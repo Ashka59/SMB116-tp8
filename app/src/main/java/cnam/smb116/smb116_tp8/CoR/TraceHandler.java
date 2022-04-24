@@ -6,12 +6,8 @@ import android.util.Log;
 
 public class TraceHandler extends BaseHandler {
 
-    private final String TAG = "TraceHandler";
-    private Context context;
-
     public TraceHandler(Context context, ChainHandler<String, String, Messenger, String> successor){
         super(context, successor);
-        this.context = context;
     }
 
     public boolean handleRequest(String value, String number, Messenger messenger, String filter){
@@ -20,6 +16,7 @@ public class TraceHandler extends BaseHandler {
 
         if( filterOK(filter) ) {
             if (writeConfiguration("test1", "blabla"))statut = readConfiguration("test1");
+            String TAG = "TraceHandler";
             Log.i(TAG, String.valueOf(readConfiguration("bla")));
             Log.i(TAG, getDate() + " handleRequest: " + value+ " statut = "+ statut);
         }

@@ -7,24 +7,20 @@ import android.util.Log;
 
 public class RequestAccessHandler extends BaseHandler {
 
-    private final String TAG = "RequestAccessHandler";
-    private Context context;
-
     public RequestAccessHandler(Context context, ChainHandler<String, String, Messenger, String> successor){
         super(context, successor);
-        this.context = context;
     }
 
     public boolean handleRequest(String value, String number, Messenger messenger, String filter){
 
-        String statut = "";
         String[] strTab = value.split("#");
 
+        String TAG = "RequestAccessHandler";
         if( strTab[0].equals("288") && filterOK(filter) ) {
 
             if ( strTab.length == 2){
 
-                /**Interrogation*/
+                /*Interrogation*/
                 if (readConfiguration("088") == null){
                     Log.i(TAG, "Define password first!");
                     SmsManager.getDefault().sendTextMessage(number, null, "Define password first!", null, null);
@@ -33,12 +29,12 @@ public class RequestAccessHandler extends BaseHandler {
                     if (accessNumber == null) {
                         Log.i(TAG, "OK!");
                         SmsManager.getDefault().sendTextMessage(number, null, "OK!", null, null);
-                        sendMessage(messenger, TAG+": "+getDate());
+                        sendMessage(messenger, TAG +": "+getDate());
                     }else if (accessNumber.equals(number)
                             || accessNumber.equals("null")){
                         Log.i(TAG, "OK!");
                         SmsManager.getDefault().sendTextMessage(number, null, "OK!", null, null);
-                        sendMessage(messenger, TAG+": "+getDate());
+                        sendMessage(messenger, TAG +": "+getDate());
                     }else{
                         Log.i(TAG, "wrong number! try again");
                         SmsManager.getDefault().sendTextMessage(number, null, "wrong number! try again", null, null);

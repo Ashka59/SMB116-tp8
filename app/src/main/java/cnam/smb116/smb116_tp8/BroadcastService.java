@@ -18,7 +18,7 @@ public class BroadcastService extends Service {
     private static final String TAG = "BroadcastService";
     private Messenger messenger;
     private String filter;
-    private cnam.smb116.smb116_tp8.SMSReceiver smsReceiver;
+    private SMSServiceAtBoot smsReceiver;
     private Intent intent;
 
     public class LocalBinder extends Binder {
@@ -30,16 +30,16 @@ public class BroadcastService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         this.intent = intent;
-        /** Question 1 */
+        /* Question 1 */
 //        startSMSReceiver();
 //        return binder;
-        /** Question 2 */
+        /* Question 2 */
         return mBinder;
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        /** Question 1 */
+        /* Question 1 */
 //        stopSMSReceiver();
         return super.onUnbind(intent);
     }
@@ -50,7 +50,7 @@ public class BroadcastService extends Service {
         if (intent != null) {
             this.filter = intent.getStringExtra("filter");
             this.messenger = (Messenger) intent.getExtras().get("messager");
-            smsReceiver = new cnam.smb116.smb116_tp8.SMSReceiver(getApplicationContext(), messenger, filter);
+            smsReceiver = new SMSServiceAtBoot(getApplicationContext(), messenger, filter);
 
             registerReceiver(smsReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
         }
@@ -64,20 +64,20 @@ public class BroadcastService extends Service {
     /** Question 2 */
     IBroadcastService.Stub mBinder = new IBroadcastService.Stub() {
         @Override
-        public void startAIDLSMSReceiver() throws RemoteException {
+        public void startAIDLSMSReceiver() {
             Log.i(TAG, "startAIDLSMSReceiver");
 
             if (intent != null) {
                 filter = intent.getStringExtra("filter");
                 messenger = (Messenger) intent.getExtras().get("messager");
-                smsReceiver = new cnam.smb116.smb116_tp8.SMSReceiver(getApplicationContext(), messenger, filter);
+                smsReceiver = new SMSServiceAtBoot(getApplicationContext(), messenger, filter);
 
                 registerReceiver(smsReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
             }
         }
 
         @Override
-        public void stopAIDLSMSReceiver() throws RemoteException {
+        public void stopAIDLSMSReceiver() {
             Log.i(TAG, "stopAIDLSMSReceiver");
             unregisterReceiver(smsReceiver);
         }
